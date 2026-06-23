@@ -1,2 +1,3 @@
-# insi-site
-Professional bilingual product website for Insi - AI recruiting platform
+# Insi
+
+Professional bilingual marketing site for Insi.

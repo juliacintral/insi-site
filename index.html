@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insi — Plataforma de recrutamento com IA</title>
+  <meta name="description" content="ATS, Candidate 360, sourcing, entrevistas e analytics em uma plataforma de recrutamento moderna." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0714;
+      --surface: rgba(20, 14, 34, 0.88);
+      --surface-2: rgba(31, 22, 51, 0.9);
+      --border: rgba(169, 144, 255, 0.18);
+      --text: #f5f2ff;
+      --muted: #b9b2d3;
+      --primary: #8f6bff;
+      --primary-2: #6f4ce0;
+      --highlight: #c8b8ff;
+      --shadow: 0 24px 80px rgba(33, 14, 79, 0.45);
+      --radius: 22px;
+      --max: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(143, 107, 255, 0.22), transparent 28%),
+        radial-gradient(circle at 85% 10%, rgba(104, 73, 223, 0.18), transparent 24%),
+        linear-gradient(180deg, #0a0612 0%, #0e0918 48%, #09060f 100%);
+      color: var(--text);
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(calc(100% - 40px), var(--max)); margin: 0 auto; }
+    header {
+      position: sticky; top: 0; z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(10, 7, 18, 0.72);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 0;
+    }
+    .brand { display: flex; align-items: center; gap: 14px; font-weight: 800; letter-spacing: .04em; }
+    .logo {
+      width: 38px; height: 38px; border-radius: 12px;
+      background: linear-gradient(135deg, #d8cbff 0%, #8f6bff 45%, #5a37cf 100%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 10px 30px rgba(117, 76, 255, 0.35);
+      position: relative;
+    }
+    .logo::after {
+      content: ''; position: absolute; inset: 8px;
+      border-radius: 9px; border: 2px solid rgba(13, 8, 24, 0.7);
+    }
+    .nav-links, .nav-actions { display: flex; align-items: center; gap: 14px; }
+    .nav-links a, .lang-btn {
+      color: var(--muted); font-size: 14px; font-weight: 500;
+    }
+    .lang-switch {
+      display: inline-flex; padding: 4px; border: 1px solid var(--border); border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+    }
+    .lang-btn {
+      border: 0; background: transparent; padding: 8px 12px; border-radius: 999px; cursor: pointer;
+    }
+    .lang-btn.active { background: rgba(143,107,255,.18); color: var(--text); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 13px 18px; border-radius: 14px; border: 1px solid transparent;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
+      color: white; box-shadow: 0 14px 36px rgba(111, 76, 224, 0.32);
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.03); border-color: var(--border); color: var(--text);
+    }
+    .hero { padding: 84px 0 48px; }
+    .hero-grid {
+      display: grid; grid-template-columns: 1.2fr .95fr; gap: 34px; align-items: center;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px;
+      border-radius: 999px; border: 1px solid rgba(200,184,255,.2); color: var(--highlight);
+      background: rgba(143,107,255,0.08); font-size: 13px; font-weight: 600;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: clamp(44px, 6vw, 76px); line-height: .96; letter-spacing: -0.04em;
+      margin: 0 0 18px;
+      max-width: 10ch;
+    }
+    .hero p {
+      color: var(--muted); font-size: 18px; line-height: 1.7; margin: 0 0 28px; max-width: 60ch;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 28px; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .stat {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 18px; padding: 18px;
+    }
+    .stat strong { display: block; font-size: 26px; margin-bottom: 5px; }
+    .stat span { color: var(--muted); font-size: 13px; }
+    .hero-card, .panel, .feature, .module-card, .metric {
+      background: linear-gradient(180deg, rgba(29, 20, 49, 0.88), rgba(15, 11, 24, 0.94));
+      border: 1px solid rgba(182, 158, 255, 0.14);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+    }
+    .hero-card { padding: 24px; }
+    .signal {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      padding: 16px 18px; border-radius: 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 14px;
+    }
+    .signal b { font-size: 15px; }
+    .signal span, .small { color: var(--muted); font-size: 13px; }
+    .score {
+      margin-top: 18px; padding: 18px; border-radius: 18px;
+      background: linear-gradient(135deg, rgba(143,107,255,0.18), rgba(93,61,191,0.1));
+      border: 1px solid rgba(200,184,255,0.15);
+    }
+    .score strong { font-size: 36px; display: block; margin-top: 8px; }
+    section { padding: 42px 0; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 24px; }
+    .section-head h2 { font-size: clamp(28px, 4vw, 42px); margin: 0 0 8px; }
+    .section-head p { margin: 0; color: var(--muted); max-width: 64ch; line-height: 1.7; }
+    .features-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+    }
+    .feature { padding: 22px; min-height: 240px; }
+    .feature .icon {
+      width: 46px; height: 46px; border-radius: 14px; margin-bottom: 18px;
+      background: linear-gradient(135deg, rgba(216,203,255,0.2), rgba(111,76,224,0.24));
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .feature h3, .module-card h3 { margin: 0 0 10px; font-size: 18px; }
+    .feature p, .module-card p, .bullet-list li, .metric p { color: var(--muted); line-height: 1.7; }
+    .feature ul, .bullet-list { padding-left: 18px; margin: 14px 0 0; color: var(--text); }
+    .feature li, .bullet-list li { margin-bottom: 8px; }
+    .platform {
+      display: grid; grid-template-columns: 1.05fr .95fr; gap: 20px;
+    }
+    .panel { padding: 26px; }
+    .module-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px;
+    }
+    .module-card { padding: 22px; }
+    .metrics {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+    }
+    .metric { padding: 22px; }
+    .metric strong { display: block; font-size: 30px; margin-bottom: 8px; }
+    .cta {
+      padding: 26px; display: flex; justify-content: space-between; gap: 20px; align-items: center;
+      background: linear-gradient(135deg, rgba(143,107,255,0.18), rgba(255,255,255,0.03));
+      border: 1px solid rgba(200,184,255,0.14); border-radius: 28px;
+      margin: 24px 0 70px;
+    }
+    footer { padding: 24px 0 48px; color: var(--muted); font-size: 14px; }
+    @media (max-width: 1080px) {
+      .hero-grid, .platform, .features-grid, .metrics { grid-template-columns: 1fr 1fr; }
+      .module-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 760px) {
+      .nav { flex-wrap: wrap; gap: 14px; }
+      .nav-links { display: none; }
+      .hero-grid, .platform, .features-grid, .metrics { grid-template-columns: 1fr; }
+      h1 { max-width: 100%; }
+      .stats { grid-template-columns: 1fr; }
+      .section-head, .cta { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <span>INSI</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#modules" data-i18n="navModules">Módulos</a>
+        <a href="#platform" data-i18n="navPlatform">Plataforma</a>
+        <a href="#analytics" data-i18n="navAnalytics">Analytics</a>
+      </nav>
+      <div class="nav-actions">
+        <div class="lang-switch" aria-label="Language switcher">
+          <button class="lang-btn active" data-lang="pt">PT</button>
+          <button class="lang-btn" data-lang="en">EN</button>
+        </div>
+        <a class="btn btn-secondary" href="#contact" data-i18n="navDemo">Agendar demo</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow" data-i18n="eyebrow">Plataforma de recrutamento de nova geração</div>
+          <h1 data-i18n="heroTitle">Recrutamento com IA, controle operacional e execução profissional.</h1>
+          <p data-i18n="heroText">A Insi unifica ATS, sourcing, entrevistas, inteligência de currículos e analytics em uma plataforma preparada para equipes de talent acquisition que exigem consistência, governança e velocidade.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#contact" data-i18n="heroPrimary">Solicitar apresentação</a>
+            <a class="btn btn-secondary" href="#modules" data-i18n="heroSecondary">Explorar módulos</a>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong data-i18n="stat1v">360°</strong><span data-i18n="stat1l">visão unificada do candidato</span></div>
+            <div class="stat"><strong data-i18n="stat2v">8</strong><span data-i18n="stat2l">frentes integradas do processo</span></div>
+            <div class="stat"><strong data-i18n="stat3v">PT/EN</strong><span data-i18n="stat3l">experiência bilíngue para operação global</span></div>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="signal">
+            <div>
+              <span data-i18n="card1label">Pipeline ativo</span>
+              <b data-i18n="card1title">Senior Product Designer</b>
+            </div>
+            <span data-i18n="card1side">12 candidatos</span>
+          </div>
+          <div class="signal">
+            <div>
+              <span data-i18n="card2label">Candidate 360</span>
+              <b data-i18n="card2title">Perfil consolidado com histórico, notas e LGPD</b>
+            </div>
+            <span data-i18n="card2side">Atualizado agora</span>
+          </div>
+          <div class="signal">
+            <div>
+              <span data-i18n="card3label">Outreach inteligente</span>
+              <b data-i18n="card3title">Cadência personalizada sugerida por contexto</b>
+            </div>
+            <span data-i18n="card3side">Copilot ativo</span>
+          </div>
+          <div class="score">
+            <span class="small" data-i18n="scoreLabel">Qualidade operacional</span>
+            <strong>94%</strong>
+            <span class="small" data-i18n="scoreText">SLA, consistência de feedback e aderência ao processo em tempo real.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="modules">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 data-i18n="modulesTitle">Módulos centrais</h2>
+            <p data-i18n="modulesText">Cada componente da Insi foi desenhado para reduzir fragmentação operacional e dar profundidade analítica à jornada de atração, seleção e gestão de candidatos.</p>
+          </div>
+        </div>
+        <div class="features-grid">
+          <article class="feature">
+            <div class="icon"></div>
+            <h3>ATS Core</h3>
+            <p data-i18n="f1p">Gestão estruturada de vagas, etapas, candidaturas, feedbacks e aprovações.</p>
+            <ul>
+              <li data-i18n="f1a">Pipelines configuráveis</li>
+              <li data-i18n="f1b">Regras e governança</li>
+            </ul>
+          </article>
+          <article class="feature">
+            <div class="icon"></div>
+            <h3>Candidate 360</h3>
+            <p data-i18n="f2p">Perfil único com anexos, histórico, notas, tags e consentimento LGPD.</p>
+            <ul>
+              <li data-i18n="f2a">Timeline consolidada</li>
+              <li data-i18n="f2b">Contexto completo por pessoa</li>
+            </ul>
+          </article>
+          <article class="feature">
+            <div class="icon"></div>
+            <h3>Resume Intelligence</h3>
+            <p data-i18n="f3p">Upload, OCR, parsing, normalização e enrichment para dados mais úteis.</p>
+            <ul>
+              <li data-i18n="f3a">Extração confiável</li>
+              <li data-i18n="f3b">Dados prontos para busca</li>
+            </ul>
+          </article>
+          <article class="feature">
+            <div class="icon"></div>
+            <h3>Sourcing CRM</h3>
+            <p data-i18n="f4p">Projetos de hunting, leads, outreach, follow-ups e status em uma visão operacional.</p>
+            <ul>
+              <li data-i18n="f4a">Organização por campanhas</li>
+              <li data-i18n="f4b">Fluxo comercial de talento</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="platform">
+      <div class="container platform">
+        <div class="panel">
+          <div class="section-head" style="margin-bottom:14px;">
+            <div>
+              <h2 data-i18n="platformTitle">Camada de plataforma</h2>
+              <p data-i18n="platformText">A base administrativa da Insi mantém segurança, rastreabilidade e capacidade de escala para operações mais maduras.</p>
+            </div>
+          </div>
+          <ul class="bullet-list">
+            <li data-i18n="p1">Autenticação, permissões e trilha de auditoria.</li>
+            <li data-i18n="p2">Integrações com stack externa e billing interno.</li>
+            <li data-i18n="p3">Feature flags para rollout controlado.</li>
+            <li data-i18n="p4">Administração pensada para governança contínua.</li>
+          </ul>
+        </div>
+        <div class="module-grid">
+          <article class="module-card">
+            <h3>LinkedIn Copilot</h3>
+            <p data-i18n="m1">Criação de abordagem, personalização de mensagens, cadência e sugestões de outreach para elevar resposta e consistência.</p>
+          </article>
+          <article class="module-card">
+            <h3>Interview Hub</h3>
+            <p data-i18n="m2">Agenda, kits de entrevista, scorecards e consolidação de feedback em um fluxo padronizado.</p>
+          </article>
+          <article class="module-card">
+            <h3>Analytics</h3>
+            <p data-i18n="m3">Dashboards operacionais, produtividade, funil, SLA e qualidade de contratação em tempo real.</p>
+          </article>
+          <article class="module-card">
+            <h3>Admin / Platform</h3>
+            <p data-i18n="m4">Controles internos para escalar times, integrações e compliance sem perder visibilidade.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="analytics">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 data-i18n="analyticsTitle">Operação mensurável</h2>
+            <p data-i18n="analyticsText">A Insi transforma o processo de recrutamento em uma operação observável, com métricas acionáveis para eficiência, qualidade e previsibilidade.</p>
+          </div>
+        </div>
+        <div class="metrics">
+          <article class="metric">
+            <strong data-i18n="k1v">Funil</strong>
+            <p data-i18n="k1t">Acompanhe conversão por etapa e identifique gargalos com precisão.</p>
+          </article>
+          <article class="metric">
+            <strong data-i18n="k2v">SLA</strong>
+            <p data-i18n="k2t">Visualize tempos de resposta, aging e aderência ao processo.</p>
+          </article>
+          <article class="metric">
+            <strong data-i18n="k3v">Produtividade</strong>
+            <p data-i18n="k3t">Entenda throughput por recrutador, vaga, squad ou cliente.</p>
+          </article>
+          <article class="metric">
+            <strong data-i18n="k4v">Qualidade</strong>
+            <p data-i18n="k4t">Consolide scorecards, feedbacks e sinais de qualidade de contratação.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="cta">
+          <div>
+            <div class="eyebrow" style="margin-bottom:14px;" data-i18n="ctaTag">Enterprise recruiting, com clareza operacional</div>
+            <h2 style="margin:0 0 10px; font-size: clamp(28px, 4vw, 42px);" data-i18n="ctaTitle">Uma plataforma única para recrutar com profundidade, velocidade e governança.</h2>
+            <p style="margin:0; color:var(--muted); max-width:60ch; line-height:1.7;" data-i18n="ctaText">Ideal para times que querem sair da fragmentação e operar aquisição de talentos como disciplina estratégica.</p>
+          </div>
+          <a class="btn btn-primary" href="mailto:hello@insi.ai">hello@insi.ai</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">Insi — Recruiting OS for modern teams.</div>
+  </footer>
+
+  <script>
+    const copy = {
+      pt: {
+        navModules: 'Módulos', navPlatform: 'Plataforma', navAnalytics: 'Analytics', navDemo: 'Agendar demo',
+        eyebrow: 'Plataforma de recrutamento de nova geração',
+        heroTitle: 'Recrutamento com IA, controle operacional e execução profissional.',
+        heroText: 'A Insi unifica ATS, sourcing, entrevistas, inteligência de currículos e analytics em uma plataforma preparada para equipes de talent acquisition que exigem consistência, governança e velocidade.',
+        heroPrimary: 'Solicitar apresentação', heroSecondary: 'Explorar módulos',
+        stat1v: '360°', stat1l: 'visão unificada do candidato', stat2v: '8', stat2l: 'frentes integradas do processo', stat3v: 'PT/EN', stat3l: 'experiência bilíngue para operação global',
+        card1label: 'Pipeline ativo', card1title: 'Senior Product Designer', card1side: '12 candidatos',
+        card2label: 'Candidate 360', card2title: 'Perfil consolidado com histórico, notas e LGPD', card2side: 'Atualizado agora',
+        card3label: 'Outreach inteligente', card3title: 'Cadência personalizada sugerida por contexto', card3side: 'Copilot ativo',
+        scoreLabel: 'Qualidade operacional', scoreText: 'SLA, consistência de feedback e aderência ao processo em tempo real.',
+        modulesTitle: 'Módulos centrais', modulesText: 'Cada componente da Insi foi desenhado para reduzir fragmentação operacional e dar profundidade analítica à jornada de atração, seleção e gestão de candidatos.',
+        f1p: 'Gestão estruturada de vagas, etapas, candidaturas, feedbacks e aprovações.', f1a: 'Pipelines configuráveis', f1b: 'Regras e governança',
+        f2p: 'Perfil único com anexos, histórico, notas, tags e consentimento LGPD.', f2a: 'Timeline consolidada', f2b: 'Contexto completo por pessoa',
+        f3p: 'Upload, OCR, parsing, normalização e enrichment para dados mais úteis.', f3a: 'Extração confiável', f3b: 'Dados prontos para busca',
+        f4p: 'Projetos de hunting, leads, outreach, follow-ups e status em uma visão operacional.', f4a: 'Organização por campanhas', f4b: 'Fluxo comercial de talento',
+        platformTitle: 'Camada de plataforma', platformText: 'A base administrativa da Insi mantém segurança, rastreabilidade e capacidade de escala para operações mais maduras.',
+        p1: 'Autenticação, permissões e trilha de auditoria.', p2: 'Integrações com stack externa e billing interno.', p3: 'Feature flags para rollout controlado.', p4: 'Administração pensada para governança contínua.',
+        m1: 'Criação de abordagem, personalização de mensagens, cadência e sugestões de outreach para elevar resposta e consistência.',
+        m2: 'Agenda, kits de entrevista, scorecards e consolidação de feedback em um fluxo padronizado.',
+        m3: 'Dashboards operacionais, produtividade, funil, SLA e qualidade de contratação em tempo real.',
+        m4: 'Controles internos para escalar times, integrações e compliance sem perder visibilidade.',
+        analyticsTitle: 'Operação mensurável', analyticsText: 'A Insi transforma o processo de recrutamento em uma operação observável, com métricas acionáveis para eficiência, qualidade e previsibilidade.',
+        k1v: 'Funil', k1t: 'Acompanhe conversão por etapa e identifique gargalos com precisão.', k2v: 'SLA', k2t: 'Visualize tempos de resposta, aging e aderência ao processo.', k3v: 'Produtividade', k3t: 'Entenda throughput por recrutador, vaga, squad ou cliente.', k4v: 'Qualidade', k4t: 'Consolide scorecards, feedbacks e sinais de qualidade de contratação.',
+        ctaTag: 'Enterprise recruiting, com clareza operacional', ctaTitle: 'Uma plataforma única para recrutar com profundidade, velocidade e governança.', ctaText: 'Ideal para times que querem sair da fragmentação e operar aquisição de talentos como disciplina estratégica.'
+      },
+      en: {
+        navModules: 'Modules', navPlatform: 'Platform', navAnalytics: 'Analytics', navDemo: 'Book a demo',
+        eyebrow: 'Next-generation recruiting platform',
+        heroTitle: 'AI recruiting with operational control and enterprise-grade execution.',
+        heroText: 'Insi unifies ATS, sourcing, interviews, resume intelligence and analytics in one platform for talent acquisition teams that need consistency, governance and speed.',
+        heroPrimary: 'Request a walkthrough', heroSecondary: 'Explore modules',
+        stat1v: '360°', stat1l: 'unified candidate visibility', stat2v: '8', stat2l: 'integrated operational layers', stat3v: 'PT/EN', stat3l: 'bilingual experience for global teams',
+        card1label: 'Active pipeline', card1title: 'Senior Product Designer', card1side: '12 candidates',
+        card2label: 'Candidate 360', card2title: 'Unified profile with history, notes and privacy consent', card2side: 'Updated now',
+        card3label: 'Smart outreach', card3title: 'Context-aware cadence suggestions for better response quality', card3side: 'Copilot active',
+        scoreLabel: 'Operational quality', scoreText: 'Real-time SLA, feedback consistency and process adherence.',
+        modulesTitle: 'Core modules', modulesText: 'Each Insi component is designed to reduce operational fragmentation and add analytical depth across attraction, selection and candidate management.',
+        f1p: 'Structured management for jobs, stages, applications, feedback and approvals.', f1a: 'Configurable pipelines', f1b: 'Rules and governance',
+        f2p: 'Single candidate profile with attachments, history, notes, tags and privacy consent.', f2a: 'Consolidated timeline', f2b: 'Complete person context',
+        f3p: 'Upload, OCR, parsing, normalization and enrichment for more usable data.', f3a: 'Reliable extraction', f3b: 'Search-ready data',
+        f4p: 'Hunting projects, leads, outreach, follow-ups and status in one operational workspace.', f4a: 'Campaign organization', f4b: 'Talent pipeline discipline',
+        platformTitle: 'Platform layer', platformText: 'The administrative foundation of Insi gives mature recruiting operations the security, traceability and scalability they need.',
+        p1: 'Authentication, permissions and audit trail.', p2: 'Integrations with external systems and internal billing.', p3: 'Feature flags for controlled rollout.', p4: 'Administration built for ongoing governance.',
+        m1: 'Approach creation, message personalization, cadence guidance and outreach suggestions to improve response quality and consistency.',
+        m2: 'Scheduling, interview kits, scorecards and consolidated feedback in one standardized workflow.',
+        m3: 'Operational dashboards, productivity, funnel, SLA and hiring quality in real time.',
+        m4: 'Internal controls to scale teams, integrations and compliance without losing visibility.',
+        analyticsTitle: 'Measurable operations', analyticsText: 'Insi turns recruiting into an observable system with actionable metrics for efficiency, quality and predictability.',
+        k1v: 'Funnel', k1t: 'Track stage-by-stage conversion and identify bottlenecks precisely.', k2v: 'SLA', k2t: 'Monitor response times, aging and process adherence.', k3v: 'Productivity', k3t: 'Understand throughput by recruiter, role, squad or client.', k4v: 'Quality', k4t: 'Consolidate scorecards, feedback and hiring-quality signals.',
+        ctaTag: 'Enterprise recruiting with operational clarity', ctaTitle: 'One platform to recruit with depth, speed and governance.', ctaText: 'Built for teams that want to move beyond fragmentation and run talent acquisition as a strategic discipline.'
+      }
+    };
+
+    const langButtons = document.querySelectorAll('[data-lang]');
+    const nodes = document.querySelectorAll('[data-i18n]');
+
+    function setLanguage(lang) {
+      document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+      document.title = lang === 'pt' ? 'Insi — Plataforma de recrutamento com IA' : 'Insi — AI recruiting platform';
+      nodes.forEach(node => {
+        const key = node.dataset.i18n;
+        if (copy[lang][key]) node.textContent = copy[lang][key];
+      });
+      langButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+    }
+
+    langButtons.forEach(btn => btn.addEventListener('click', () => setLanguage(btn.dataset.lang)));
+  </script>
+</body>
+</html>
